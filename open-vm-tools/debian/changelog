@@ -1,0 +1,964 @@
+open-vm-tools (2:9.4.0-1280544-8) unstable; urgency=medium
+
+  * [0ecb889e] Removing old transitional packages.
+  * [5e039b52] Add missing Breaks/Replaces for file moves.
+  * [9d01b21d] Fix vsock removal patch, add some missing ""
+  * [2ae80665] Add e55039c_HGFS-Fix-Linux-client-symlinks patch again.
+    Went missing during a merge conflict. Ouch.
+  * [d7f7e40e] Fix vsock removal patch (avoid { foo;; })
+
+ -- Bernd Zeimetz <bzed@debian.org>  Fri, 16 May 2014 00:33:35 +0200
+
+open-vm-tools (2:9.4.0-1280544-7) unstable; urgency=medium
+
+  * [9960cb11] Add gbp setting for merge info in changelog.
+  * [645a5350] Remove old patch for the vsock module.
+    Not necessary in the current version anymore.
+    Thanks to Hilmar Preuße (Closes: #748202)
+  * [4c8effb7] Fix patch to avoid building vmblock on kernel >= 3.0.
+    No real difference, though, as we don't build kernel modules with
+    configure.
+  * [2cbfa96d] Refreshing patches.
+  * [be59923b] Do not build vsock on kernels >= 3.9
+    the vsock module was included in the upstream kernel.
+  * [6d36f49e] Move .desktop file into the -desktop package.
+  * [ef406f81] Move /lib/modules-load.d/open-vm-tools.conf to open-vm-tools-dkms.
+    Thanks to Jim Barber (Closes: #748187)
+  * [56742c8c] Revert "Use /run/VMwareDnD instead of /tmp/VMwareDnD."
+    This reverts commit 49dc599d453ed40a1299b9a376755cdbb43e0da2.
+  * [c6df2503] Patch pam.d/vmtoolsd to use common-auth/account.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Thu, 15 May 2014 20:02:26 +0200
+
+open-vm-tools (2:9.4.0-1280544-6) unstable; urgency=medium
+
+  [ Cédric Barboiron ]
+  * [4e45e2e8] Hot apply udev rule for disk timeout
+  * [527525fc] fix syntax-error-in-dep5-copyright
+  * [5f6b2a47] fix malformed-override open-vm-toolbox
+  * [5aabaf79] fix manpage-has-errors-from-man
+  * [f867443c] fix executable-not-elf-or-script
+    match unit file rights in systemd package
+  * [f89024a1] fix file locations in copyright
+
+  [ Bernd Zeimetz ]
+  * [76dadf83] Add patch for CVE-2013-3237.
+  * [fa7d4a63] Merge pull request #1 from yastupin/master
+    procps, init script and doc
+  * [115b8c49] Better permission handling.
+    Especially for pam.d files and vmware-user-suid-wrapper.
+  * [70fa10d1] Fix vmxnet initramfs-tools hook.
+    Thanks to Norbert Lange
+  * [9d3f3c9b] Move vmware-user-suid-wrapper into desktop package.
+  * [49dc599d] Use /run/VMwareDnD instead of /tmp/VMwareDnD.
+    /tmp/VMwareDnD might be existing already or evil users might try to
+    trick us into doing bad things. Using known directories in /tmp is bad
+    enough not to spend time to try to figure out if the code tries to work
+    around possible attacks. Using a directory in /run is a much safer
+    approach. Proper init scripts will be added at a later point.
+  * [d9467cd9] Dropping lintian override files.
+    Also fixing some lintian warnings.
+  * [a7f7e5bd] Use libprocps-dev instead of libprocps0-dev.
+  * [21214012] Use manpages-desktop as source folder for -desktop.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 13 May 2014 00:08:03 +0200
+
+open-vm-tools (2:9.4.0-1280544-5) unstable; urgency=low
+
+  * [31c30832] Revert "Enable building of vmci again."
+    This reverts commit 0d55577cd3c262dbbc2bf79593d6f500f84c4170.
+    Too fast upload, sorry. vmhgfs is indeed (still) broken with
+    vmci.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 08 Jan 2014 20:28:33 +0100
+
+open-vm-tools (2:9.4.0-1280544-4) unstable; urgency=low
+
+  * [0d55577c] Enable building of vmci again.
+    Also patch it to build with 3.12
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 08 Jan 2014 19:41:01 +0100
+
+open-vm-tools (2:9.4.0-1280544-3) unstable; urgency=low
+
+  * [8b23a27d] Revert "Add /mnt/hgfs as hgfs mountpoint."
+    Although the idea from the Ubuntu people to ship the mountpoint
+    in the package is nice, lintian is rather unhappy about it.
+    This reverts commit 1e7d8645e48f601e79eb5771e05272b367fa4eb1.
+  * [46f99c30] Remove procps support for now.
+    Unfortunately the procps package in unstable is rather broken, procps
+    support will be enabled again when the new procps version managed to
+    migrate to testing.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 08 Jan 2014 18:17:28 +0100
+
+open-vm-tools (2:9.4.0-1280544-2) unstable; urgency=low
+
+  * [242d45e4] Pick patch from upstream to build with gcc 4.8
+  * [ed8f797f] Add script to pick patches from upstream.
+  * [312be5d5] Snapshot changelog.
+  * [c125af80] Use /updates/dkms/ as location for kernel modules.
+    We don't want to mess with files shipped in kernel module packages.
+  * [f63a890c] Bumping Standards-Version, no changes needed.
+  * [1e7d8645] Add /mnt/hgfs as hgfs mountpoint.
+  * [0bcabab3] Fix add_patch script.
+  * [1d436969] Add some more patches to make dkms succeed on recent kernels.
+    Also add dh_autoreconf as we modify configure.ac
+  * [088450dd] Also apply the changs from upstream's 530ef7f for dkms.
+    vmblock should be used via fuse now, vmsync is not needed anymore.
+  * [cf44ff2f] Pick patch from upstream: Harden HostinfoOSData
+  * [21ca2b74] Pick patch from upstream: building on kfreebsd.
+  * [82123155] Use libprocps3-dev instead of libprocps0-dev.
+  * [da76a5e9] Add patch to convert kuid_t/kgid_t to uid_t/gid_t.
+    Building against kernel 3.12 should succeed now.
+  * [91e91538] Pick another fix from upstream to make vmhgfs build on 3.12
+  * [53ea11a4] Add Vcs Headers to debian/control.
+  * [d19592cc] Revert "Use libprocps3-dev instead of libprocps0-dev."
+    This reverts commit 821231554486ec7ff36cd36e89a6b0ef7c7a5552.
+    Due to procps being completely broken in unstable.
+
+ -- Bernd Zeimetz <bzed@debian.org>  Wed, 08 Jan 2014 16:00:44 +0100
+
+open-vm-tools (2:9.4.0-1280544-1) unstable; urgency=low
+
+  * [b85cd491] Taking over the maintenance of open-vm-tools. (Closes: #717381)
+  * [ecccbddd] Adding watch file.
+  * [12cfd169] Merge tag 'upstream/9.4.0-1280544'
+    Upstream version 9.4.0-1280544
+  * [7e93ef77] Refreshing patches.
+  * [25fe744b] Adding CUSTOM_PROCPS_NAME/CFLAGS to dh_auto_configure call.
+  * [4d1081bc] Importing patches from Ubuntu.
+    As open-vm-tools should just do the right thing, we leave building
+    vmsync enabled to make backporting easier.
+    Thanks to Nate Muench <NowIWillDestroyAbydos@gmail.com>
+  * [a0fae111] Copy upstream's dkms config for dh_dkms.
+  * The new upstream release, together with the flags and new patches
+    mentioned above, makes open-vm-tools build with Kernel 3.11.
+    Thanks to: Jim Barber and Mihai Limbasan
+    Closes: #729540
+
+ -- Bernd Zeimetz <bzed@debian.org>  Tue, 07 Jan 2014 02:32:03 +0100
+
+open-vm-tools (2:9.2.3-1031360-7) unstable; urgency=low
+
+  * QA upload
+  * Fix compilation with Linux 3.10. Thanks to Zack Weinberg for the patch! 
+    (Closes: #717154)
+
+ -- Moritz Mühlenhoff <muehlenhoff@univention.de>  Mon, 09 Sep 2013 05:19:44 +0200
+
+open-vm-tools (2:9.2.3-1031360-6) unstable; urgency=low
+
+  * Correcting syntax of file entries in copyright.
+  * Adding section override for open-vm-tools-dkms.
+  * Enforcing build with gcc 4.7 for the time being.
+  * Orphaning package.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 16 Jul 2013 10:18:50 +0200
+
+open-vm-tools (2:9.2.3-1031360-5) experimental; urgency=low
+
+  * Dropping obsolete sysvinit initscript start/stop numbers.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 11 Jun 2013 17:52:08 +0200
+
+open-vm-tools (2:9.2.3-1031360-4) experimental; urgency=low
+
+  * Dropping kfreebsd from architecture list, it has never built and
+    nobody seems willing to make it work (neither upstream, porters, nor
+    users).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 06 Jun 2013 13:10:41 +0200
+
+open-vm-tools (2:9.2.3-1031360-3) experimental; urgency=low
+
+  * Adding initial systemd service file from fedora.
+  * Skipping vmsync kernel module for the time being until it has been
+    fixed for the debian specific change introduced in linux 3.8.11-1 that
+    broke it (Closes: #707208).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 31 May 2013 12:01:52 +0200
+
+open-vm-tools (2:9.2.3-1031360-2) experimental; urgency=low
+
+  * Renaming debian-specific open-vm-toolbox package to open-vm-tools-
+    desktop for consistency with upstream.
+  * Revamping package descriptions.
+  * Renaming open-vm-dkms to open-vm-tools-dkms for consistent package
+    namespace.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 23 May 2013 19:13:26 +0200
+
+open-vm-tools (2:9.2.3-1031360-1) experimental; urgency=low
+
+  * Merging upstream version 9.2.3-1031360.
+  * Removing procps.patch, not needed anymore.
+  * Renumbering patches.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 05 May 2013 09:58:58 +0200
+
+open-vm-tools (2:9.2.2-893683-8) experimental; urgency=low
+
+  * Adding patch from Mathias Krause <minipli@googlemail.com> to fix
+    kernel stack memory leack in vsock module [CVE-2013-3237] (Closes:
+    #706557).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 01 May 2013 17:11:01 +0200
+
+open-vm-tools (2:9.2.2-893683-7) experimental; urgency=low
+
+  * Removing purely cosmetical 'sleep 1' leftover in initscript (Closes:
+    #686200).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 31 Mar 2013 20:57:51 +0200
+
+open-vm-tools (2:9.2.2-893683-6) unstable; urgency=low
+
+  * Removing all references to my old email address.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 10 Mar 2013 21:16:35 +0100
+
+open-vm-tools (2:9.2.2-893683-5) unstable; urgency=low
+
+  * Updating to standards version 3.9.4.
+  * Shortening build-depends on procps again.
+  * Updating year in copyright file.
+  * Prefixing patches with 4 digits for consistency.
+  * Tightening diff headers in patches.
+  * Adding dpkg-source local-options to abort on upstream changes.
+  * Dropping dpkg-source compression levels.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 27 Jan 2013 11:28:37 +0100
+
+open-vm-tools (2:9.2.2-893683-4) unstable; urgency=low
+
+  * Removing init order to network also on start (Closes: #695845).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 16 Dec 2012 19:42:26 +0100
+
+open-vm-tools (2:9.2.2-893683-3) unstable; urgency=low
+
+  * Correcting daemon name in stop section of the initscript (Closes:
+    #696056).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 16 Dec 2012 13:55:05 +0100
+
+open-vm-tools (2:9.2.2-893683-2) unstable; urgency=low
+
+  * Removing init order to network (Closes: #695845).
+  * Correcting version number (Closes: #695912).
+  * Don't check for vm on stop in initscript (Closes: #695993).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 15 Dec 2012 14:38:30 +0100
+
+open-vm-tools (2:9.2.2-893683-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Switching to xz compression again for jessie.
+  * Loading modules through kmod instead of initscript again for jessie.
+  * Adding sleep during restart in initscript again for jessie.
+  * Removing old dpkg trigger for update-initramfs again for jessie.
+  * Updating of GPL boilerplate in copyright file again for jessie.
+  * Adding bugnumber to previous changelog entries regarding wheezy
+    unblocks.
+  * Merging upstream version 9.2.2-893683.
+  * Adding remote_fs dependency in initscript (Closes: #695845).
+
+  [ Bernd Zeimetz ]
+  * Handling binNMU/nmu/backports version numbers in rules.
+
+  [ Daniel Baumann ]
+  * Using suggested start-stop-daemon handling in initscript from Bernd
+    Zeimetz <bernd@bzed.de> (Closes: #686200).
+  * Adding changelog for 8.8.0+2012.05.21-724730-1+nmu1 (Closes: #687205).
+  * Correcting architecture fields in control.
+  * Keeping vmware-user-suid-wrapper completely in vmware-tools rather
+    than partially in vmware-toolbox (Closes: #686202).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 13 Dec 2012 14:08:53 +0100
+
+open-vm-tools (2:8.8.0+2012.05.21-724730-4) unstable; urgency=low
+
+  * Reverting switch to xz compression to ease wheezy unblock (#683299).
+  * Reverting to load modules through kmod instead of initscript to ease
+    wheezy unblock (#683299).
+  * Reverting added sleep during restart in initscript to ease wheezy
+    unblock (#683299).
+  * Reverting removing old dpkg trigger for update-initramfs to ease
+    wheezy unblock (#683299).
+  * Reverting update of GPL boilerplate in copyright file to ease wheezy
+    unblock (#683299).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 02 Aug 2012 21:32:52 +0200
+
+open-vm-tools (2:8.8.0+2012.05.21-724730-3) unstable; urgency=low
+
+  [ Thijs Kinkhorst ]
+  * Updating dkms.conf to make modules build again, thanks to H.A.J.
+    Koster (Closes: #679886).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 16 Jul 2012 22:06:58 +0200
+
+open-vm-tools (2:8.8.0+2012.05.21-724730-2) unstable; urgency=low
+
+  * Switching to xz compression.
+  * Loading modules through kmod instead of initscript.
+  * Adding sleep during restart in initscript.
+  * Removing old dpkg trigger for update-initramfs.
+  * Updating GPL boilerplate in copyright file.
+  * Calling dh_dkms with version argument (Closes: #677503).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 30 Jun 2012 04:55:23 +0200
+
+open-vm-tools (2:8.8.0+2012.05.21-724730-1+nmu1) testing-proposed-updates; urgency=low
+
+  [ Bernd Zeimetz ]
+  * Non-maintainer upload to ensure open-vm-tools will
+    be shipped with Wheezy.
+  * Ensure upgrades to not fail due to the broken init script
+    (Closes: #686200)
+    - Fix open-vm-tools init script to stop vmtoolsd properly.
+    - Handle upgrades from a version with broken init script.
+      Try to stop again, just in case. Ignore errors as we don't know
+      how successful the old buggy script was.
+  * Remove the duplicate vmware-suid-wrapper from open-vm-toolbox.
+    The better way would be to ship it in open-vm-toolbox instead of
+    open-vm-tools, but to avoid moving config files from one package
+    into another we will keep it this way for Wheezy. Partly addresses
+    #686202.
+  * Handle binNMU/nmu/backports/... version numbers.
+    The old way to parse the version string from debian/changelog fails
+    on binNMU/nmu/security/... version numbers. Fixing this.
+    (Closes: #686582)
+
+  [ Daniel Baumann ]
+  * Updating GPL boilerplate in copyright file.
+  * Calling dh_dkms with version argument (Closes: #677503).
+
+  [ Thijs Kinkhorst ]
+  * Updating dkms.conf to make modules build again,
+    thanks to H.A.J. Koster (Closes: #679886).
+
+ -- Bernd Zeimetz <bzed@debian.org>  Sun, 19 Aug 2012 22:20:10 +0200
+
+open-vm-tools (2:8.8.0+2012.05.21-724730-1) unstable; urgency=low
+
+  * Merging upstream version 8.8.0+2012.05.21-724730.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 14 Jun 2012 12:05:11 +0200
+
+open-vm-tools (2:8.8.0+2012.03.13-651368-1) unstable; urgency=low
+
+  [ Michael Dorrington ]
+  * Changed Build-Depends to libprocps0-dev to fix libproc-dev removal
+    (Closes: #659595).
+
+  [ Daniel Baumann ]
+  * Merging upstream version 8.8.0+2012.03.13-651368:
+    - compatible with linux 3.2 and 3.3 (Closes: #656618).
+  * Updating to debhelper version 9.
+  * Updating to standards version 3.9.3.
+  * Updating copyright file machine-readable format version 1.0.
+  * Building with debhelper dkms support (Closes: #651779, #654249).
+  * Updating procps patch for newest procps library name.
+  * Building without multiarch paths for now.
+
+ -- Daniel Baumann <daniel.baumann@progress-linux.org>  Tue, 20 Mar 2012 07:52:18 +0100
+
+open-vm-tools (2:8.8.0+2011.12.20-562307-1) unstable; urgency=low
+
+  * Merging upstream version 8.8.0+2011.12.20-562307.
+  * Adding patch to correct typo in upstreams dkms configuration
+    (Closes: #651778).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 26 Dec 2011 11:27:02 +0100
+
+open-vm-tools (2:8.8.0+2011.11.20-535097-1) unstable; urgency=low
+
+  * Merging upstream version 8.8.0+2011.11.20-535097.
+  * Adding patch to update build-system for procps-ng.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 28 Nov 2011 18:33:58 +0100
+
+open-vm-tools (2:8.8.0+2011.10.26-514583-1) unstable; urgency=low
+
+  * Merging upstream version 8.8.0+2011.10.26-514583.
+  * Correcting typo in example fstab line of vmhgfs manpage.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 01 Nov 2011 21:44:24 +0100
+
+open-vm-tools (2:8.8.0+2011.09.23-491607-3) unstable; urgency=low
+
+  * Sorting overrides in rules alphabetically.
+  * Compacting copyright file.
+  * Adding udev rule to set timeout for vmware scsi devices (Closes:
+    #609001).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 30 Oct 2011 21:26:00 +0100
+
+open-vm-tools (2:8.8.0+2011.09.23-491607-2) unstable; urgency=low
+
+  * Adding doxygen to build-depends for api documentation.
+  * Adding libcunit1-dev to build-depends for test suites.
+  * Adding dmks package again, it had to be dropped right before the
+    squeeze release (Closes: #632220).
+  * Removing open-vm-source in favour of open-vm-dkms (Closes: #518014).
+  * Minimizing rules file.
+  * Adding open-vm-tools-dev package, containing only the api
+    documentation for now.
+  * Moving package back to main as it is in the same category as
+    xserver-xorg-video-vmware where it was in the first place.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 09 Oct 2011 23:07:34 +0200
+
+open-vm-tools (2:8.8.0+2011.09.23-491607-1) unstable; urgency=low
+
+  * Marking binary architecture-dependend packages as linux and kfreebsd
+    only.
+  * Removing legacy symlink for vmware-user desktop file in vmware-
+    toolbox (Closes: #639811).
+  * Merging upstream version 8.8.0+2011.09.23-491607:
+    - works with binutils-gold (Closes: #556756).
+  * Removing liburiparser-dev from build-depends as upstream dropped
+    unity support.
+  * Building with libproc-dev on amd64 again.
+  * Dropping disabling of dnet support (Closes: #639767).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 09 Oct 2011 18:01:42 +0200
+
+open-vm-tools (2:8.4.2+2011.08.21-471295-1) unstable; urgency=low
+
+  * Merging upstream version 8.4.2+2011.08.21-471295 (Closes: #608823):
+    - building against newer libnotify (Closes: #636344).
+    - works with current kernels (Closes: #614292, #617536, #629980).
+  * Updating maintainer and uploaders fields.
+  * Removing vcs fields.
+  * Removing references to my old email address.
+  * Updating years in copyright file.
+  * Updating to standards version 3.9.2.
+  * Updating to debhelper version 8.
+  * Switching to source format 3.0 (quilt).
+  * Removing manual chrpath setting.
+  * Removing exclusion from plugins from debhelper shlibs.
+  * Rediffing kvers.patch.
+  * Updating packaging for new upstream version.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 28 Aug 2011 16:10:21 +0200
+
+open-vm-tools (1:8.4.2-261024-1) unstable; urgency=low
+
+  * Merging upstream version 8.4.2-261024.
+  * Re-enabling vmmemctl (Closes: #606327).
+  * Re-enabling pvscsi.
+  * Re-enabling vmxnet3.
+  * Rediffing kvers.patch.
+  * Updating modules to standards version 3.9.1.
+  * Removing dkms package, doesn't work with 8.4.2 yet.
+  * Excluding plugins from shlibdeps.
+  * Setting rpath for plugins.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 15 Dec 2010 01:08:45 +0100
+
+open-vm-tools (2010.06.16-268169-3) unstable; urgency=low
+
+  * Updating local Makefile to inject symvers files to fix vmhgfs and
+    vsock modules, thanks to Joe Gooch <mrwizard@k12system.com> (Closes:
+    #579721).
+  * Updating standards version to 3.9.1.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 14 Aug 2010 12:59:39 +0200
+
+open-vm-tools (2010.06.16-268169-2) unstable; urgency=low
+
+  * Removing vmmemctl fom initscript (Closes: #588356).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 09 Jul 2010 13:19:42 +0200
+
+open-vm-tools (2010.06.16-268169-1) unstable; urgency=low
+
+  * Merging upstream version 2010.06.16-268169.
+  * Updating standards version to 3.9.0.
+  * Updating README.source.
+  * Rediffing kvers.patch.
+  * Dropping procps.patch, not required anymore.
+  * Updating packaging for upstreams vmmemctl module removal.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 03 Jul 2010 21:34:25 +0200
+
+open-vm-tools (2010.04.25-253928-2) unstable; urgency=low
+
+  * Dropping la files.
+  * Updating rules for pvscsi removal (Closes: #581160).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 11 May 2010 20:10:45 +0200
+
+open-vm-tools (2010.04.25-253928-1) unstable; urgency=low
+
+  * Merging upstream version 2010.04.25-253928.
+  * Updating packaging for upstreams pvscsi module removal.
+  * Removing remote_fs from initscript again (Closes: #577163).
+  * Updating lintian overrides for open-vm-tools.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 29 Apr 2010 22:01:51 +0200
+
+open-vm-tools (2010.03.20-243334-4) unstable; urgency=low
+
+  * Updating date and version in manpage headers.
+  * Adding manpage for vmxnet3.
+  * Adding manpage for vmci.
+  * Fixing spelling typo in vmsync manpage.
+  * Adding manpage for vmsock.
+  * Update formating of newly added manpages.
+  * Adding vmware-toolbox-cmd manpage.
+  * Adding guestlib manpage.
+  * Adding libvmtools manpage.
+  * Renaming guestlib manpage to libguestlib.
+  * Including vmware-toolbox-cmd manpage in open-vm-tools package.
+  * Updating initscript start/stop declarations (Closes: #576843,
+    #577163).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 14 Apr 2010 18:59:32 +0200
+
+open-vm-tools (2010.03.20-243334-3) unstable; urgency=low
+
+  * Adding misc depends.
+  * Running open-vm-dkms postinst script with set -e.
+  * Adding remote_fs to init depends.
+  * Avoid including license files in open-vm-dkms.
+  * Marking makefiles in open-vm-dkms executable to please lintian.
+  * Adding make to open-vm-dkms depends.
+  * Also stopping in runlevel 1.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 06 Apr 2010 22:42:58 +0200
+
+open-vm-tools (2010.03.20-243334-2) unstable; urgency=low
+
+  * Addding dkms support based on the work of Evan Broder
+    <broder@mit.edu> on the ubuntu package (Closes: #516251).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 27 Mar 2010 17:09:36 +0100
+
+open-vm-tools (2010.03.20-243334-1) unstable; urgency=low
+
+  * Simplyfing initramfs triggers (Closes: #516355).
+  * Merging upstream version 2010.03.20-243334.
+  * Moving local Makefile to subdirectory.
+  * Adding build-depends to libfuse-dev.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 27 Mar 2010 11:01:55 +0100
+
+open-vm-tools (2010.02.23-236320-1) unstable; urgency=low
+
+  * Updating to standards 3.8.4.
+  * Merging upstream version 2010.02.23-236320.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 27 Feb 2010 16:34:11 +0100
+
+open-vm-tools (2010.01.19-226760-1) unstable; urgency=low
+
+  * Updating year in copyright file.
+  * Merging upstream version 2010.01.19-226760.
+  * Correcting plugins handling (Closes: #564069).
+  * Updating packaging for upstreams vmxnet3 module removal.
+  * Updating packaging for upstreams test plugin removal.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 24 Jan 2010 09:55:47 +0100
+
+open-vm-tools (2009.12.16-217847-1) unstable; urgency=low
+
+  * Adding explicit debian source version 1.0 until switch to 3.0.
+  * Merging upstream version 2009.12.16-217847.
+  * Rediffing kvers.patch.
+  * Rediffing procps.patch.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 20 Dec 2009 13:36:35 +0100
+
+open-vm-tools (2009.11.16-210370-1) unstable; urgency=low
+
+  * Merging upstream version 2009.11.16-210370.
+  * Moving vmusr plugins from open-vm-tools to open-vm-toolbox (Closes:
+    #539282, #557215).
+  * Correcting plugin location (Closes: #545222, #549044).
+  * Dropping la files (Closes: #551626).
+  * Adding open-vm-toolbox lintian overrides.
+  * Removing test plugin.
+  * Removing unused plugin symlinks.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 06 Dec 2009 07:45:05 +0100
+
+open-vm-tools (2009.10.15-201664-1) unstable; urgency=low
+
+  * Merging upstream version 2009.10.15-201664.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 18 Oct 2009 12:28:19 +0200
+
+open-vm-tools (2009.09.18-193784-1) unstable; urgency=low
+
+  * Adding maintainer homepage field in control.
+  * Adding README.source.
+  * Updating, sorting and wrapping depends.
+  * Merging upstream version 2009.09.18-193784.
+  * Moving maintainer homepage from control to copyright.
+  * Updating README.source.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 04 Oct 2009 08:18:40 +0200
+
+open-vm-tools (2009.08.24-187411-1) unstable; urgency=low
+
+  * Merging upstream version 2009.08.24-187411.
+  * Updating maintainer field.
+  * Updating vcs fields.
+  * Updating package to standards version 3.8.3.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 25 Aug 2009 10:35:29 +0200
+
+open-vm-tools (2009.07.22-179896-2) unstable; urgency=low
+
+  * Temporarily building without dumbnet, the recently uploaded
+    new dumbnet upstream version broke down (Closes: #539006).
+  * Using more common name to store local debian additions.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 30 Jul 2009 12:56:49 +0200
+
+open-vm-tools (2009.07.22-179896-1) unstable; urgency=low
+
+  * Merging upstream version 2009.07.22-179896.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 27 Jul 2009 11:46:49 +0200
+
+open-vm-tools (2009.06.18-172495-3) unstable; urgency=medium
+
+  * Adding libnotify-dev to build-depends.
+  * Adding symlinks for plugins.
+  * Updating vmtoolsd call in init script.
+  * Adding missing files to module source, thanks to Brian Kroth
+    <bpkroth@gmail.com> (Closes: #525816, #531936, #532293).
+  * Building binary modules with neither module-assistant nor kernel-
+    package is not supported by upstream (Closes: #518014).
+  * Cleaning up module source by removing unecessary files.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 19 Jul 2009 11:40:57 +0200
+
+open-vm-tools (2009.06.18-172495-2) unstable; urgency=low
+
+  * Correcting typo in rules for setting configure flags on amd64
+    (Closes: #531414).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 16 Jul 2009 23:10:27 +0200
+
+open-vm-tools (2009.06.18-172495-1) unstable; urgency=low
+
+  * Merging upstream version 2009.06.18-172495.
+  * Updating to standards 3.8.2.
+  * Updating year in copyright file.
+  * Correcting vcs fields in modules control file.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 01 Jul 2009 11:52:35 -0300
+
+open-vm-tools (2009.05.22-167859-3) unstable; urgency=low
+
+  * Building without procps on amd64 as a temporary workaround (Closes:
+    #531429).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 01 Jun 2009 17:13:07 +0200
+
+open-vm-tools (2009.05.22-167859-2) unstable; urgency=low
+
+  * Adding procps to build-depends (Closes: #531414).
+  * Adding patch for configure to not hardcode procps version.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 01 Jun 2009 12:53:51 +0200
+
+open-vm-tools (2009.05.22-167859-1) unstable; urgency=low
+
+  * Merging upstream version 2009.05.22-167859.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 30 May 2009 09:48:43 +0200
+
+open-vm-tools (2009.04.23-162451-1) unstable; urgency=low
+
+  * Merging upstream version 2009.04.23-162451.
+  * Removing vmware-guestd manpage, dropped by upstream and not included
+    anymore.
+  * Using correct rfc-2822 date formats in changelog.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 19 May 2009 19:21:31 +0200
+
+open-vm-tools (2009.03.18-154848-2) unstable; urgency=low
+
+  * Correcting patch system depends (Closes: #520493).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 20 Mar 2009 10:19:00 +0100
+
+open-vm-tools (2009.03.18-154848-1) unstable; urgency=low
+
+  * Updating section of debug packages.
+  * Merging upstream version 2009.03.18-154848.
+  * Updating debian files to match vmware-guestd to vmtoolsd migration.
+  * Using quilt rather than dpatch.
+  * Renaming debian manpages subdirectory for consistency reasons.
+  * Updating standards to 3.8.1.
+  * Manually handling modprobe file rename from lenny to squeeze
+    (Closes: #519935).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 19 Mar 2009 09:35:00 +0100
+
+open-vm-tools (2009.02.18-148847-3) unstable; urgency=medium
+
+  * Updating kvers.dpatch.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 18 Mar 2009 23:16:06 +0100
+
+open-vm-tools (2009.02.18-148847-2) unstable; urgency=low
+
+  * Using debhelper to install vmxnet modprobe file.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 08 Mar 2009 16:03:00 +0100
+
+open-vm-tools (2009.02.18-148847-1) unstable; urgency=low
+
+  * Merging upstream version 2009.02.18-148847.
+  * Enabling unity support, uriparser 0.7 is finally available.
+  * Adding libgtkmm-2.4-dev to build-depends.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 20 Feb 2009 09:03:00 +0100
+
+open-vm-tools (2009.01.21-142982-2) unstable; urgency=medium
+
+  * Always prefering vmxnet over pcnet32 through modprobe and initramfs
+    configuration (Closes: #502365).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 04 Feb 2009 11:28:00 +0100
+
+open-vm-tools (2009.01.21-142982-1) unstable; urgency=low
+
+  * Merging upstream version 2009.01.21-142982.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 24 Jan 2009 04:45:00 +0100
+
+open-vm-tools (2008.12.23-137496-1) unstable; urgency=low
+
+  * Merging upstream version 2008.12.23-137496.
+  * Also unload vmxnet module in initscript when starting as a workaround of
+    having vmxnet already loaded at initramfs stage. Thanks to Russ Allbery
+    <rra@debian.org> (Closes: #510935).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 09 Jan 2009 12:13:00 -0500
+
+open-vm-tools (2008.11.18-130226-1) unstable; urgency=low
+
+  * Replacing obsolete dh_clean -k with dh_prep.
+  * Merging upstream version 2008.11.18-130226.
+  * Updating debian directory for addition of pvscsi and vmxnet3 modules.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 20 Nov 2008 21:56:00 +0100
+
+open-vm-tools (2008.10.10-123053-2) unstable; urgency=medium
+
+  * Correcting typo in dh_installinit call.
+  * Downgrading depends on module-assistant to recommends.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 23 Oct 2008 15:32:00 +0200
+
+open-vm-tools (2008.10.10-123053-1) unstable; urgency=low
+
+  * Using patch-stamp rather than patch in rules file.
+  * Merging upstream version 2008.10.10-123053.
+  * Updating kvers.dpatch.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 16 Oct 2008 19:05:00 +0200
+
+open-vm-tools (2008.09.03-114782-2) unstable; urgency=low
+
+  * Updating kvers.dpatch (Closes: #498620).
+  * Updating initscript to correctly handle vmxnet (Closes: #479090, #488810).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 14 Sep 2008 14:30:00 +0200
+
+open-vm-tools (2008.09.03-114782-1) unstable; urgency=low
+
+  * Merging upstream version 2008.09.03-114782.
+  * Updating rules to new location of the config.guess and config.sub files.
+  * Updating vcs fields in control file.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 09 Sep 2008 22:06:00 +0200
+
+open-vm-tools (2008.08.08-109361-1) unstable; urgency=low
+
+  * Removing destdir.dpatch, not needed anymore.
+  * Adjusting rules to upstream changes with respect to the pixmap files.
+  * Disabling unity, uiparser is too old (see #493073).
+  * Adding build-depends to liburiparser-dev for new unity feature.
+  * Adding build-depends to libxss-dev for new unity feature.
+  * Updating to add new vmci and vsock modules.
+  * Merging upstream version 2008.08.08-109361.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 11 Aug 2008 15:56:00 +0200
+
+open-vm-tools (2008.07.01-102166-3) unstable; urgency=medium
+
+  * Replacing /lib64 with /lib in /etc/pam.d/vmware-guestd-x64.
+  * Fixing FTBFS on amd64 by renaming /etc/pam.d/vmware-guestd-x64 to
+    /etc/pam.d/vmware-guestd.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 10 Jul 2008 23:24:00 +0200
+
+open-vm-tools (2008.07.01-102166-2) unstable; urgency=medium
+
+  * Adding manpages.
+  * Stop removing setuid from /sbin/mount.vmhgfs.
+  * Extending vmxnet_needed() in initscript to also check for availability of
+    vmxnet.ko for the running kernel, otherwise don't attempt to load vmxnet
+    (Closes: #488810).
+  * Adding suggests to xdg-utils in open-vm-toolbox.
+  * Using modprobe -r rather than rmmod in initscript.
+  * Starting initscript at position 20, which is before networking comes up
+    (Closes: #479090).
+  * Adding vmware-user symlink to xdg autostart.
+  * Adding symlink from mount.vmhgfs to old vmware-hgfsmounter name.
+  * Removing executable bit for /etc/pam.d/vmware-guestd file.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 04 Jul 2008 09:59:00 +0200
+
+open-vm-tools (2008.07.01-102166-1) unstable; urgency=low
+
+  * Merging upstream version 2008.07.01-102166.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 03 Jul 2008 13:01:00 +0200
+
+open-vm-tools (2008.06.20-100027-1) unstable; urgency=low
+
+  * Dropping autobuild patch in favour for upstreams new --without-
+    kernel-modules configure switch.
+  * Merging upstream version 2008.06.20-100027.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 01 Jul 2008 22:22:00 +0200
+
+open-vm-tools (2008.06.03-96374-2) unstable; urgency=medium
+
+  * Adding debug package.
+  * Splitting open-vm-tools into open-vm-tools (CLI tools) and open-vm-
+    toolbox (GUI tools) (Closes: #467042).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 20 Jun 2008 14:51:00 +0200
+
+open-vm-tools (2008.06.03-96374-1) unstable; urgency=medium
+
+  * Updating rules file for upstream version 2008.06.03-96374.
+  * Adding patch to make build-system respect  again.
+  * Adding xauth to recommends of open-vm-tools (Closes: #487088).
+  * Adding patch to avoid building kernel modules in this new upstream version.
+  * Merging upstream version 2008.06.03-96374 (Closes: #484242).
+  * Updating to standards 3.8.0.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 20 Jun 2008 14:12:00 +0200
+
+open-vm-tools (2008.05.15-93241-2) unstable; urgency=medium
+
+  * Updating location of vmware-checkvm in init script (Closes: #483056).
+  * Correcting typo in mount.vmhgfs symlink (Closes: #474694).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 27 May 2008 07:29:00 +0200
+
+open-vm-tools (2008.05.15-93241-1) unstable; urgency=medium
+
+  * Moving mount.vmhgfs from /usr/sbin to /sbin, thanks to Lea Wiemann
+    <lewiemann@gmail.com> (Closes: #474694).
+  * Also loading and unloading vmsync module in init script, thanks to
+    Lea Wiemann <lewiemann@gmail.com> (Closes: #481001).
+  * Moving vmware-checkvm from /usr/sbin to /usr/bin, thanks to Lea
+    Wiemann <lewiemann@gmail.com> (Closes: #481004).
+  * Using lintian debhelper to install lintian overrides.
+  * Correcting manpage section of module-assistant in README.Debian.
+  * Removing debian todo file.
+  * Merging upstream version 2008.05.15-93241.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 21 May 2008 09:15:00 +0200
+
+open-vm-tools (2008.05.02-90473-1) unstable; urgency=low
+
+  * Adding libicu-dev to build-depends.
+  * Merging upstream version 2008.05.02-90473.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 03 May 2008 09:44:00 +0200
+
+open-vm-tools (2008.04.14-87182-1) unstable; urgency=medium
+
+  * Correcting wrong email address in changelog file.
+  * Including vmware support scripts (Closes: #469160).
+  * Correcting symlink for vmware-hgfsmounter (Closes: #474694).
+  * Updating rules to cover new component xferlogs.
+  * Adding libdumbnet-dev to build-depends.
+  * Adding libproc-dev to build-depends.
+  * Merging upstream version 2008.04.14-87182.
+  * Adding open-vm-source to open-vm-tools recommends (Closes: #471784).
+  * Adding zerofree to open-vm-tools suggests, thanks to Thibaut Paumard
+    <paumard@users.sourceforge.net> (Closes: #472799).
+  * Updating vcs fields in control.
+  * Updating package to debhelper 7.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 26 Apr 2008 13:40:00 +0200
+
+open-vm-tools (2008.02.13-77928-2) unstable; urgency=medium
+
+  * Rewriting copyright in machine-interpretable format.
+  * Cleaned up copyright.
+  * Fixing pathes and binary names in init script (Closes: #469146).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 08 Mar 2008 08:48:00 +0100
+
+open-vm-tools (2008.02.13-77928-1) unstable; urgency=low
+
+  * Adding upstream version 2008.02.13-77928.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 24 Feb 2008 20:41:00 +0100
+
+open-vm-tools (2008.01.23-74039-2) unstable; urgency=low
+
+  * Adding vcs fields in control.
+  * Removing watch file.
+  * Correcting wrong manpage section of module-assistant in
+    README.Debian.
+  * Correcting wrong filename of module-source tarball in README.Debian.
+  * Updating formating of README.Debian.
+  * Removing config.guess and config.sub from the debian diff.
+  * Reverting config.guess and config.sub to upstream.
+  * Adding vmware-guestd init script (Closes: #465276).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 24 Feb 2008 20:20:00 +0100
+
+open-vm-tools (2008.01.23-74039-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fixing manpage section in README.Debian.
+  * Bumping package to debhelper 6.
+  * Bumping package to policy 3.7.3.
+  * Also removing user/ in clean target of rules.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 30 Jan 2008 15:24:00 +0100
+
+open-vm-tools (2007.11.21-64693-2) unstable; urgency=low
+
+  * Adding open-vm-source package for module source.
+  * Upload to unstable.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 26 Nov 2007 11:08:00 +0100
+
+open-vm-tools (2007.11.21-64693-1) experimental; urgency=low
+
+  * New upstream release.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 26 Nov 2007 11:07:00 +0100
+
+open-vm-tools (2007.09.04-56574-2) experimental; urgency=low
+
+  * Moving package to contrib (Closes: #445439).
+  * Limiting architectures to amd64 and i386 (Closes: #445374).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 09 Oct 2007 10:05:00 +0200
+
+open-vm-tools (2007.09.04-56574-1) experimental; urgency=low
+
+  * Initial release (Closes: #441905).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 09 Sep 2007 16:53:00 +0200
