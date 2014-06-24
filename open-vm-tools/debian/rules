@@ -1,5 +1,41 @@
 #!/usr/bin/make -f
 
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+DEB_ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ifeq ($(DEB_ARCH),i386)
+DEB_KSUBARCH=none
+DEB_KFLAVOR=586-vyos
+else
+ifeq ($(DEB_ARCH),amd64)
+DEB_KSUBARCH=none
+DEB_KFLAVOR=amd64-vyos
+endif
+endif
+
+kbdir=debian/build/build-$(DEB_ARCH)-$(DEB_KSUBARCH)-$(DEB_KFLAVOR)
+host_kdir=/usr/src/linux-image/$(kbdir)
+export KDIR=$(host_kdir)
+
+ifndef KDIR
+ifneq ($(MAKECMDGOALS),clean)
+$(error did not find kernel build directory)
+endif
+else
+kmajor=$(shell sed 's/^\([^-]\+\)-.*$$/\1/' $(KDIR)/version.Debian)
+klocal=$(shell cat $(KDIR)/localversion)
+export KVER=$(kmajor)$(klocal)
+endif
+
+ifeq ($(DEB_ARCH),amd64)
+proc=--without-procps
+else
+proc=--with-procps
+endif
+
 VERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed -e 's|^.*:||' -e 's|-.*$$||')
 
 %:
@@ -7,11 +43,14 @@ VERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed -
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
+			--host=$(DEB_HOST_GNU_TYPE) \
+			--build=$(DEB_BUILD_GNU_TYPE) \
 			--prefix=/usr \
 			--libdir=\$${prefix}/lib \
+			--with-kernel-release=$(KVER) \
 			--without-kernel-modules \
-			CFLAGS="-Wno-deprecated-declarations $(CFLAGS)" \
-			CUSTOM_PROCPS_NAME=procps
+			$(proc) \
+			CFLAGS="-Wno-deprecated-declarations $(CFLAGS)"
 
 override_dh_auto_install:
 	dh_auto_install -- DESTDIR=$(CURDIR)/debian/open-vm-tools
@@ -23,8 +62,8 @@ override_dh_auto_install:
 	fi
 
 	# permissions
-	chmod 0644 debian/*/etc/pam.d/*
-	chmod 4755 debian/*/usr/bin/vmware-user-suid-wrapper
+	chmod 0644 debian/open-vm-tools/etc/pam.d/*
+	chmod 4755 debian/open-vm-tools/usr/bin/vmware-user-suid-wrapper
 
 	install -D -m 0755 debian/local/vmxnet.hook debian/open-vm-tools/usr/share/initramfs-tools/hooks/vmxnet
 	install -D -m 0644 debian/local/xautostart.conf debian/open-vm-tools-desktop/etc/vmware-tools/xautostart.conf
