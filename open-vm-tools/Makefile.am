@@ -27,6 +27,7 @@ SUBDIRS += lib
 SUBDIRS += libvmtools
 SUBDIRS += libhgfs
 SUBDIRS += hgfsclient
+SUBDIRS += docs
 if BUILD_HGFSMOUNTER
    SUBDIRS += hgfsmounter
 endif
