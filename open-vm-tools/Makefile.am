@@ -49,8 +49,4 @@ SUBDIRS += xferlogs
 if ENABLE_TESTS
    SUBDIRS += tests
 endif
-if WITH_KERNEL_MODULES
-   SUBDIRS += modules
-endif
-SUBDIRS += docs
 
