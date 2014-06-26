@@ -31,9 +31,9 @@ export KVER=$(kmajor)$(klocal)
 endif
 
 ifeq ($(DEB_ARCH),amd64)
-proc=--without-procps
+extra=CUSTOM_PROCPS_LIBS=-L../../../procps64 CFLAGS="-Wno-deprecated-declarations $(CFLAGS)"
 else
-proc=--with-procps
+extra=CUSTOM_PROCPS_LIBS=-L../../../procps32 CFLAGS="-Wno-deprecated-declarations $(CFLAGS)"
 endif
 
 VERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed -e 's|^.*:||' -e 's|-.*$$||')
@@ -49,8 +49,8 @@ override_dh_auto_configure:
 			--libdir=\$${prefix}/lib \
 			--with-kernel-release=$(KVER) \
 			--without-kernel-modules \
-			$(proc) \
-			CFLAGS="-Wno-deprecated-declarations $(CFLAGS)"
+			--with-procps \
+			$(extra)
 
 override_dh_auto_install:
 	dh_auto_install -- DESTDIR=$(CURDIR)/debian/open-vm-tools
