@@ -1,3 +1,11 @@
+open-vm-tools (2:9.4.0-1280544-8+vyos1+helium1) unstable; urgency=medium
+
+  [ Kim Hagen ]
+  * Fix bug #245
+  * Prepare for including into VyOS
+
+ -- Daniil Baturin <daniil@baturin.org>  Wed, 06 Aug 2014 16:05:52 +0000
+
 open-vm-tools (2:9.4.0-1280544-8) unstable; urgency=medium
 
   * [0ecb889e] Removing old transitional packages.
