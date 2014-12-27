@@ -1,7 +1,7 @@
 Source: open-vm-tools
 Section: admin
 Priority: extra
-Maintainer: Bernd Zeimetz <bzed@debian.org>
+Maintainer: VyOS Package Maintainers <maintainers@vyos.net>
 Build-Depends:
  debhelper (>= 8), autotools-dev, dkms, doxygen, libcunit1-dev,
  libdumbnet-dev, libfuse-dev, libgtk2.0-dev, libgtkmm-2.4-dev,
