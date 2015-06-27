@@ -1,3 +1,9 @@
+open-vm-tools (2:9.4.0-1280544-8+vyos2+lithium3) unstable; urgency=medium
+  
+  * vyos-open-vm-tools: add dh_gencontrol to enable development builds
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Sat, 27 Jun 2015 18:37:46 +0100
+ 
 open-vm-tools (2:9.4.0-1280544-8+vyos2+lithium2) unstable; urgency=medium
   
   * Update maintainer address
