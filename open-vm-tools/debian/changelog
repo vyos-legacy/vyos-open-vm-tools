@@ -1,3 +1,12 @@
+open-vm-tools (2:9.4.6-1770165-1+vyos2+lithium4) unstable; urgency=medium
+ 
+  [ Alex Harpin ]
+  * Update to upstream version 9.4.6
+  * vyos-open-vm-tools: import upstream debian patches for 9.4.6
+  * vyos-open-vm-tools: update debian packaging from upstream version 9.4.6
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Thu, 15 Oct 2015 08:01:18 +0100
+ 
 open-vm-tools (2:9.4.0-1280544-8+vyos2+lithium3) unstable; urgency=medium
   
   * vyos-open-vm-tools: add dh_gencontrol to enable development builds
