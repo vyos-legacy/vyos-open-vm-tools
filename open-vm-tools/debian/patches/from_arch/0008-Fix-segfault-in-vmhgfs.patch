@@ -71,8 +71,8 @@ index 67606fd..fcf0681 100644
  /*
   *----------------------------------------------------------------------
   *
-@@ -890,8 +886,6 @@ out:
-    spin_unlock(&writeDentry->d_inode->i_lock);
+@@ -888,8 +888,6 @@
+    spin_unlock(&writeDentry->d_inode->i_lock);  
     return result;
  }
 -
