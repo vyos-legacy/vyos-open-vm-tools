@@ -1,3 +1,12 @@
+open-vm-tools (2:9.4.12-2627939-1+vyos2+lithium5) unstable; urgency=medium
+ 
+  [ Alex Harpin ]
+  * Update to upstream version 9.4.12
+  * vyos-open-vm-tools: drop debian patch already applied upstream (9.4.12)
+  * vyos-open-vm-tools: update debian patches inline with upstream (9.4.12)
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Wed, 28 Oct 2015 07:32:47 +0000
+ 
 open-vm-tools (2:9.4.6-1770165-1+vyos2+lithium4) unstable; urgency=medium
  
   [ Alex Harpin ]
