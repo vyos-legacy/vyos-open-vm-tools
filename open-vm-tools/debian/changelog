@@ -1,3 +1,10 @@
+open-vm-tools (2:9.4.12-2627939-1+vyos2+lithium6) unstable; urgency=medium
+ 
+  [ Alex Harpin ]
+  * vyos-open-vm-tools: disable sync driver by default to prevent crashing
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Sun, 08 Nov 2015 15:00:12 +0000
+
 open-vm-tools (2:9.4.12-2627939-1+vyos2+lithium5) unstable; urgency=medium
  
   [ Alex Harpin ]
