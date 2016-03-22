@@ -1,8 +1,18 @@
 #!/usr/bin/make -f
 
-VERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed -e 's|^.*:||' -e 's|-.*$$||')
+host_kdir=/usr/src/linux-image
+export KDIR=$(host_kdir)
 
-UPSTREAM_VERSION = $(strip $(shell grep '^TOOLS_VERSION' configure.ac | sed 's,.*=",,;s,",,'))
+ifndef KDIR
+ifneq ($(MAKECMDGOALS),clean)
+$(error did not find kernel build directory)
+endif
+else
+kmajor=$(shell sed 's/^\([^-]\+\)-.*$$/\1/' $(KDIR)/version.Debian)
+export KVER=$(kmajor)
+endif
+
+VERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed -e 's|^.*:||' -e 's|-.*$$||')
 
 %:
 	dh ${@} --with autotools_dev,dkms,autoreconf,systemd
@@ -10,8 +20,6 @@ UPSTREAM_VERSION = $(strip $(shell grep '^TOOLS_VERSION' configure.ac | sed 's,.
 override_dh_autoreconf:
 	cp configure.ac configure.ac.autoreconf
 	cp modules/linux/dkms.sh modules/linux/dkms.sh.autoreconf
-	sed -i 's,$(UPSTREAM_VERSION),$(VERSION),g' configure.ac
-	sed -i 's,$(UPSTREAM_VERSION),$(VERSION),g' modules/linux/dkms.sh
 	dh_autoreconf
 
 override_dh_autoreconf_clean:
@@ -28,6 +36,7 @@ override_dh_auto_configure:
 			--prefix=/usr \
 			--libdir=\$${prefix}/lib \
 			--without-kernel-modules \
+			--with-kernel-release=$(KVER) \
 			--with-pic \
 			CFLAGS="-fPIC -Wno-deprecated-declarations $(CFLAGS)" \
 			CUSTOM_PROCPS_NAME=procps \
@@ -110,4 +119,5 @@ override_dh_strip:
 override_dh_systemd_start:
 	dh_systemd_start
 	sed -i 's,run-vmblock-fuse,run-vmblock\\\\x2dfuse,g' debian/*.debhelper
+
 
