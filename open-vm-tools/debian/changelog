@@ -1,3 +1,12 @@
+open-vm-tools (2:9.4.0-1280544-8+vyos1+helium3) unstable; urgency=low
+
+  [ Alex Harpin ]
+  * vyos-open-vm-tools: disable sync driver by default to prevent crashing
+
+  [ Yuya Kusakabe ]
+
+ -- Yuya Kusakabe <yuya.kusakabe@gmail.com>  Mon, 21 Aug 2017 11:54:30 +0900
+
 open-vm-tools (2:9.4.0-1280544-8+vyos1+helium2) unstable; urgency=medium
   
   * Force release
